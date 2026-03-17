@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TodayIsEating | Pesan Sekarang</title>
+    <style>
+        /* CSS SEDERHANA AGAR PASTI JALAN */
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f4f4f4; text-align: center; }
+        header { background: #e63946; color: white; padding: 20px; }
+        .container { max-width: 600px; margin: auto; padding: 20px; }
+        .card { background: white; padding: 15px; margin: 10px 0; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; }
+        .btn-tambah { background: #ffb703; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        .btn-pesan { background: #25d366; color: white; border: none; padding: 15px; width: 100%; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 20px; }
+        #keranjang-box { background: #fff3b0; padding: 20px; border-radius: 15px; margin-top: 30px; border: 2px dashed #e63946; }
+        input, textarea { width: 100%; padding: 10px; margin: 10px 0; box-sizing: border-box; border: 1px solid #ccc; border-radius: 5px; }
+        .item-list { text-align: left; margin-bottom: 10px; border-bottom: 1px solid #ddd; padding-bottom: 5px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>TodayIsEating 🍔</h1>
+    <p>Pilih menu dan klik tombol kuning!</p>
+</header>
+
+<div class="container">
+    <div class="card">
+        <div>
+            <strong>Double Cheese Burger</strong><br>
+            <span>Rp 45.000</span>
+        </div>
+        <button class="btn-tambah" onclick="tambahItem('Double Cheese Burger', 45000)">+ Tambah</button>
+    </div>
+
+    <div class="card">
+        <div>
+            <strong>Crispy Chicken</strong><br>
+            <span>Rp 30.000</span>
+        </div>
+        <button class="btn-tambah" onclick="tambahItem('Crispy Chicken', 30000)">+ Tambah</button>
+    </div>
+
+    <div id="keranjang-box">
+        <h3>🛒 Keranjang Anda</h3>
+        <div id="display-pesanan">
+            <p style="color: #888;">Belum ada pesanan.</p>
+        </div>
+        <h4 id="display-total">Total: Rp 0</h4>
+        
+        <hr>
+        
+        <h3>📍 Data Pengiriman</h3>
+        <input type="text" id="nama" placeholder="Nama Lengkap">
+        <textarea id="alamat" placeholder="Alamat Lengkap"></textarea>
+        
+        <button class="btn-pesan" onclick="kirimKeWA()">KIRIM PESANAN KE WHATSAPP</button>
+    </div>
+</div>
+
+<script>
+    let keranjang = [];
+    let totalHarga = 0;
+
+    // FUNGSI KLIK TAMBAH
+    function tambahItem(nama, harga) {
+        console.log("Menambah: " + nama); // Untuk cek di console browser
+        keranjang.push({ nama: nama, harga: harga });
+        totalHarga += harga;
+        updateTampilan();
+    }
+
+    // FUNGSI UPDATE TAMPILAN
+    function updateTampilan() {
+        const divPesanan = document.getElementById('display-pesanan');
+        const divTotal = document.getElementById('display-total');
+        
+        divPesanan.innerHTML = ""; // Kosongkan dulu
+        
+        keranjang.forEach((item) => {
+            divPesanan.innerHTML += `<div class="item-list">✅ ${item.nama} - Rp ${item.harga.toLocaleString()}</div>`;
+        });
+        
+        divTotal.innerText =
